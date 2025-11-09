@@ -1,0 +1,36 @@
+from collections import deque
+
+def create_graph():
+    graph = {}
+    n = int(input("Enter number of nodes: "))
+    for _ in range(n):
+        node = input("Enter node name: ")
+        neighbors = input(f"Enter neighbors of {node} separated by space: ").split()
+        graph[node] = neighbors
+    return graph
+
+def dfs(graph, start, visited=None):
+    if visited is None:
+        visited = set()
+    print(start, end=" ")
+    visited.add(start)
+    for neighbor in graph[start]:
+        if neighbor not in visited:
+            dfs(graph, neighbor, visited)
+
+def bfs(graph, start):
+    visited = set()
+    queue = deque([start])
+    while queue:
+        current = queue.popleft()
+        if current not in visited:
+            print(current, end=" ")
+            visited.add(current)
+            queue.extend(graph[current])
+
+graph = create_graph()
+start_node = input("Enter the starting node for DFS and BFS: ")
+print("\nDFS Traversal:")
+dfs(graph, start_node)
+print("\n\nBFS Traversal:")
+bfs(graph, start_node)
